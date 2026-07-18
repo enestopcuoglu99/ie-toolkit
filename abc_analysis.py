@@ -1,3 +1,4 @@
+from eoq import calculate_eoq
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -29,6 +30,24 @@ if __name__ == "__main__":
     print(result[["item", "annual_value", "cum_share", "class"]].round(3))
     print()
     print(result["class"].value_counts())
+
+# --- Order policy for A-class items ---
+    # Realistic per-item data: annual demand, order cost, holding cost
+    item_data = {
+        "Motor":   {"demand": 2400, "order_cost": 200, "holding": 12.0},
+        "Gehäuse": {"demand": 3600, "order_cost": 180, "holding": 6.5},
+    }
+
+    print()
+    print("--- A-class order policy ---")
+    a_items = result[result["class"] == "A"]
+
+    for item in a_items["item"]:
+        d = item_data[item]
+        eoq = calculate_eoq(d["demand"], d["order_cost"], d["holding"])
+        orders = d["demand"] / eoq
+        print(f"{item}: order {eoq:.0f} units per batch "
+              f"({orders:.1f} orders/year)")
 
     # --- Pareto chart ---
     fig, ax1 = plt.subplots()
