@@ -15,6 +15,12 @@ inventory management essentials: EOQ, ABC analysis, and Pareto charts.
 
 ## Example output
 
+```
+--- A-class order policy ---
+Motor: order 283 units per batch (8.5 orders/year)
+Gehäuse: order 447 units per batch (8.1 orders/year)
+```
+
 ## How to run
 
 ```bash
