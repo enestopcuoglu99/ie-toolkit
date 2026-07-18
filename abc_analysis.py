@@ -29,3 +29,21 @@ if __name__ == "__main__":
     print(result[["item", "annual_value", "cum_share", "class"]].round(3))
     print()
     print(result["class"].value_counts())
+
+    # --- Pareto chart ---
+    fig, ax1 = plt.subplots()
+
+    ax1.bar(result["item"], result["annual_value"], color="steelblue")
+    ax1.set_ylabel("Annual value (EUR)")
+    ax1.tick_params(axis="x", rotation=45)
+
+    ax2 = ax1.twinx()
+    ax2.plot(result["item"], result["cum_share"] * 100,
+             color="darkred", marker="o")
+    ax2.set_ylabel("Cumulative share (%)")
+    ax2.axhline(y=80, color="gray", linestyle="--", alpha=0.5)
+
+    plt.title("Pareto Analysis of Inventory Items")
+    plt.tight_layout()
+    plt.savefig("pareto_chart.png")
+    plt.show()
